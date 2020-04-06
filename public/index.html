@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+      <title><%= htmlWebpackPlugin.options.isProd ? '' : 'dev - ' %>课程表</title>
+
+      <% if(htmlWebpackPlugin.options.isProd){ %>
+      <!--发布版就要csdn-->
+
+      <!-- nprogress 的样式表文件 -->
+      <link rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+      <!-- element-ui 的样式表文件 -->
+      <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+      <script src="https://cdn.staticfile.org/vue/2.5.22/vue.min.js"></script>
+      <script src="https://cdn.staticfile.org/vue-router/3.0.1/vue-router.min.js"></script>
+      <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+      <script src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js"></script>
+
+      <!-- element-ui引入组件库 -->
+      <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+      <script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
+
+      <% }%>
+
+      <script>
+        document.addEventListener('visibilitychange',function(){if(document.visibilityState=='hidden'){normal_title=document.title;document.title='/(ㄒoㄒ)/~~快回来吖';}else{document.title=normal_title;}});
+      </script>
+    </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
