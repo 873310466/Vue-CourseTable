@@ -1,6 +1,6 @@
 <template>
-  <el-card shadow="hover" :style="cardBackground">
-
+  <el-card shadow="hover" :style="cardBackground" >
+    <!--左上角-->
     <div class="drop">
       <!--Help-->
       <el-dropdown class="helper" @command="handleCommand">
@@ -17,14 +17,16 @@
         <!--回到本周的按钮-->
           <el-button-group>
             <el-tooltip effect="light" content="显示上周课程" placement="top" :enterable="false">
-              <el-button  :disabled="formData.week===1" @click="lastWeekCourses" type="primary" icon="el-icon-arrow-left" ></el-button>
+              <el-button :disabled="formData.week===1" @click="lastWeekCourses" type="primary"
+                         icon="el-icon-arrow-left"></el-button>
             </el-tooltip>
             <el-tooltip effect="light" content="显示本周课程" placement="top" :enterable="false">
                           <el-button :disabled="formData.week===curWeek" class="btn-curweek" type='primary' round
                                      icon="el-icon-location-information" @click="rebackCurWeek"></el-button>
             </el-tooltip>
             <el-tooltip effect="light" content="显示下周课程" placement="top" :enterable="false">
-            <el-button :disabled="formData.week===17" @click="nextWeekCourses" type="primary" icon="el-icon-arrow-right" ></el-button>
+            <el-button :disabled="formData.week===17" @click="nextWeekCourses" type="primary"
+                       icon="el-icon-arrow-right"></el-button>
             </el-tooltip>
           </el-button-group>
 
@@ -40,6 +42,7 @@
       :data="tableData"
       :span-method="objectSpanMethod"
       v-loading="tableConfig.isLoading"
+      style="border-radius: 20px"
       border>
       <el-table-column
         type="index"
@@ -91,27 +94,43 @@
       <div class="starSum">{{starSum}}</div>
     </div>
     <!--About-->
-    <el-drawer
-      title="关于本站"
-      :visible.sync="drawerVisible"
-      direction="ltr"
-    >
-      <ul class="about">
-        <li>作者：柠檬鱼</li>
-        <li>现状：东北大学-软件学院-在读-大二学生</li>
-        <li>联系方式：873310466@qq.com</li>
-        <li><span style="margin-right: 5px">Github :</span>
-          <el-link type="primary" href="https://github.com/873310466/CoureseTable">
-            https://github.com/873310466/CoureseTable
-          </el-link>
-        </li>
-        <li><span style="margin-right: 5px">Gitee :</span>
-          <el-link type="primary" href="https://github.com/873310466/CoureseTable">
-            https://github.com/873310466/CoureseTable
-          </el-link>
-        </li>
-      </ul>
-    </el-drawer>
+    <div class="about">
+      <el-drawer
+        title="关于本站"
+        :visible.sync="drawerVisible"
+        direction="ltr"
+      >
+        <ul class="about-ul">
+          <li>简介：本网站是自己上学的一个课程表~</li>
+          <li>作者：柠檬鱼</li>
+          <li>现状：东北大学-软件学院-大二学生</li>
+          <li>联系方式：873310466@qq.com</li>
+          <li>源码
+            <ul>
+              <li><span style="margin-right: 5px">前端 :</span>
+                <el-link type="primary" href="https://github.com/873310466/Vue-CourseTable">
+                  https://github.com/873310466/Vue-CourseTable
+                </el-link>
+              </li>
+              <li><span style="margin-right: 5px">后端 :</span>
+                <el-link type="primary" href="https://github.com/873310466/CoureseTable">
+                  https://github.com/873310466/CoureseTable
+                </el-link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <img src="" alt="">
+        <el-carousel :interval="3000" arrow="always" style="margin: 0 13px;border-radius: 10px">
+          <el-carousel-item v-for="item in dataImg" :key="item.src">
+            <img style="width: 100%;height: 100%" :src="item.src"/>
+          </el-carousel-item>
+        </el-carousel>
+        <el-divider content-position="center">⭐ <span style="font-weight: bold;font-size: 16px">愿景</span> ⭐</el-divider>
+        <h4 style="display: flex;justify-content: center">希望自己早日找到实习，越来越 <span style="color: #00aae2"> 腻害</span>叭 (●'◡'●)</h4>
+      </el-drawer>
+    </div>
+
     <!--友情建议对话框-->
     <el-dialog
       title="友情建议"
@@ -125,7 +144,7 @@
                    :label-position="'top'"></common-form>
 
       <span slot="footer" class="dialog-footer">
-    <el-button @click="leaveMessageDialogVisible = false">取 消</el-button>
+    <el-button @click="beforeCloseLMDialog">取 消</el-button>
     <el-button type="primary" @click="sendSuggestion">发 送</el-button>
   </span>
     </el-dialog>
@@ -141,6 +160,33 @@ export default {
   components: { CommonForm },
   data () {
     return {
+      // 轮播图
+      dataImg: [
+        {
+          src: 'https://course-table-img.oss-cn-hangzhou.aliyuncs.com/BEAUTY01.jpg'
+        },
+        {
+          src: 'https://course-table-img.oss-cn-hangzhou.aliyuncs.com/BEAUTY02.png'
+
+        },
+
+        {
+          src: 'https://course-table-img.oss-cn-hangzhou.aliyuncs.com/BEAUTY03.jpg'
+
+        },
+
+        {
+          src: 'https://course-table-img.oss-cn-hangzhou.aliyuncs.com/HANDSOND.jpg'
+
+        }
+
+      ],
+      // 背景图片
+      bgImg:
+          ['http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk1.jpg',
+            'http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk2.jpg',
+            'http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk3.jpg',
+            'http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk4.jpg'],
       // 星星点击总数
       starSum: 0,
       // “关于界面弹出显示与隐藏”
@@ -151,8 +197,7 @@ export default {
       curDay: '',
       // 背景图片
       cardBackground: {
-        background: 'url(' + require('../../assets/beauty.jpg') + ') no-repeat',
-        backgroundSize: 'cover'
+        background: 'url(http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk1.jpg) no-repeat'
       },
       // 友情建议对话框
       leaveMessageDialogVisible: false,
@@ -294,10 +339,10 @@ export default {
       })
     },
     // 发送建议对话框BeforeClose
-    beforeCloseLMDialog (done) {
+    beforeCloseLMDialog () {
       this.$confirm('亲亲确认关闭对话框吗 OvO？')
         .then(_ => {
-          done()
+          this.leaveMessageDialogVisible = false
         })
         .catch(_ => {
         })
@@ -458,8 +503,9 @@ export default {
         }
       }
     },
+    // header-cell
     headerCellStyle ({ row, column, columnIndex, rowIndex }) {
-      if (rowIndex === 0 && columnIndex === this.curDay + 1) {
+      if (rowIndex === 0 && columnIndex === this.curDay + 1 && this.formData.week === this.curWeek) {
         return {
           backgroundColor: '#3172b2',
           color: '#eee'
@@ -472,7 +518,10 @@ export default {
     cellStyle ({ row, column, columnIndex, rowIndex }) {
       if (columnIndex !== 0) {
         return row[column.property].rowSpan > 0
-          ? { backgroundColor: '#E0FFFF' } : {}
+          ? {
+            backgroundColor: '#E0FFFF'
+
+          } : {}
       } else {
         if (rowIndex < 4) {
           return {
@@ -504,6 +553,13 @@ export default {
     rebackCurWeek () {
       this.formData.week = this.curWeek
       this.$message.success(`本周是第 ${this.curWeek} 周喔~~`)
+    },
+    // 随机背景图片
+    randomBgImg () {
+      setInterval(() => {
+        const index = Math.floor(Math.random() * 4 + 1)
+        this.cardBackground.background = 'url(http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk' + index + '.jpg) no-repeat'
+      }, 30000)
     }
   },
   watch: {
@@ -523,11 +579,28 @@ export default {
     this.countSelectedWeek()
     this.getStar()
     this.curDay = new Date().getDay()
+    this.randomBgImg()
   }
 }
 </script>
 
+<style lang="scss">
+  :focus {
+    outline: 0;
+  }
+</style>
+
 <style lang="scss" scoped>
+  /deep/ .el-drawer__header {
+    font-size: 25px !important;
+
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   .stars {
     display: flex;
     justify-content: center;
@@ -542,23 +615,16 @@ export default {
     }
   }
 
-  .el-table--enable-row-hover .el-table__body tr:hover {
-    background: rgba(0, 0, 0, 1);
-    border: 1px solid #313463;
-    box-shadow: 0 0 1px 1px #313463, inset 0 0 10px 5px rgba(49, 52, 99, 0.20);
-  }
-
-  .el-table {
-    width: 90%;
-    margin: 0px 63px;
-    opacity: 0.5;
-    transition: 0.666s ease-in-out;
-
-  }
-
   .el-card {
     margin: 30px;
     height: 780px;
+    padding: 0 15px;
+    background-size: cover!important;
+    .el-table {
+      opacity: 0.5;
+      transition: 0.666s ease-in-out;
+
+    }
   }
 
   .el-table:hover {
@@ -636,7 +702,7 @@ export default {
     top: 50px;
   }
 
-  .about li {
+  .about-ul li {
     margin: 10px 0;
   }
 
