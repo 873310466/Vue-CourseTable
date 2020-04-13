@@ -108,7 +108,7 @@
         <!--抽屉页t-->
         <div class="about">
           <el-drawer
-            size="35%"
+            size="30%"
             title="关于本站"
             :visible.sync="drawerVisible"
             direction="ltr"
