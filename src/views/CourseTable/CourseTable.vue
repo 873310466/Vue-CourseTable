@@ -41,7 +41,6 @@
 
         <!--表格区域-->
         <el-table
-          fixed
           :height="tableConfig.height"
           :header-cell-style="headerCellStyle"
           :cell-style="cellStyle"
@@ -55,6 +54,8 @@
             align="center"
             label="节次\星期"
             width="95px"
+            fixed
+
           >
             <template slot-scope="scope">
               <div class="first-col">
