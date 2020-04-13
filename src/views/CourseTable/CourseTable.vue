@@ -15,7 +15,7 @@
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
-              <el-col :xs="{span: 24, offset: 3}" :lg="{span: 10, offset: 6}">
+              <el-col :xs="{span: 24, offset: 3}" :lg="{span: 10, offset: 7}">
                 <!--选择周数-->
                 <span class="select-week">
           <common-form inline :form-label="formLabel" :form="formData">
@@ -55,7 +55,6 @@
             label="节次\星期"
             width="95px"
             fixed
-
           >
             <template slot-scope="scope">
               <div class="first-col">
@@ -74,8 +73,15 @@
             v-for="item in tableLabel"
             :key="item.prop"
             :prop="item.prop"
-            :label="item.label"
           >
+            <template v-slot:header >
+                <div class="col-header-normal">
+                  {{item.label}}
+                </div>
+                <div >
+                  {{customColHeader(item.label)}}
+                </div>
+            </template>
             <template slot-scope="scope">
               <div class="course">
                 <div v-if="scope.row[item.prop].name!==undefined" slot="reference">
@@ -162,6 +168,13 @@
 
 <script>
 import CommonForm from '@/components/CommonForm'
+
+// 开学日期
+const BEGIN_DATE = new Date('2020-02-23 00:00:00')
+// 一周的时间
+const ONE_WEEK_TIME = 7 * 24 * 3600000
+// 一天的时间
+const ONE_DAY_TIME = 86400000
 
 export default {
   name: 'CourseTable',
@@ -514,6 +527,40 @@ export default {
         }
       }
     },
+    // 自定义表头（悬浮显示当前日期）
+    customColHeader (weekday) {
+      const curWeek = this.formData.week
+      let offset = 0
+      switch (weekday) {
+        case '星期日':
+          offset = 0
+          break
+        case '星期一':
+          offset = 1
+          break
+        case '星期二':
+          offset = 2
+          break
+        case '星期三':
+          offset = 3
+          break
+        case '星期四':
+          offset = 4
+          break
+
+        case '星期五':
+          offset = 5
+          break
+        case '星期六':
+          offset = 6
+          break
+      }
+      const curDate = new Date(BEGIN_DATE.getTime() + (curWeek - 1) * ONE_WEEK_TIME + offset * ONE_DAY_TIME)
+
+      const curDateObject = (curDate.getMonth() + 1) + '-' + (curDate.getDate())
+
+      return curDateObject
+    },
     // header-cell
     headerCellStyle ({ row, column, columnIndex, rowIndex }) {
       if (rowIndex === 0 && columnIndex === this.curDay + 1 && this.formData.week === this.curWeek) {
@@ -557,16 +604,20 @@ export default {
     },
     // 计算选中周数和当前周数
     countSelectedWeek () {
-      var curDateObject = new Date('2020-02-23')
-      const oneDayTime = 86400000
-      const toNowDays = (new Date() - curDateObject) / oneDayTime
+      const toNowDays = (new Date() - BEGIN_DATE) / ONE_DAY_TIME
       this.curWeek = Math.floor(toNowDays / 7) + 1
       this.formData.week = this.curWeek
+
+      return this.curWeek
     },
     // 回到本周
     rebackCurWeek () {
       this.formData.week = this.curWeek
-      this.$message.success(`本周是第 ${this.curWeek} 周喔~~`)
+      this.$notify({
+        message: `本周是第 ${this.curWeek} 周喔~~`,
+        type: 'success',
+        duration: 2000
+      })
     },
     // 随机背景图片
     randomBgImg () {
@@ -713,6 +764,10 @@ export default {
 
   .about-ul li {
     margin: 10px 0;
+  }
+
+  .col-header-normal{
+    font-size: 16px;
   }
 
 </style>
