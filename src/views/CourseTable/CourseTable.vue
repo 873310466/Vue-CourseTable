@@ -1,5 +1,4 @@
 <template>
-
       <el-card shadow="hover" :style="cardBackground" >
 
         <el-row>
@@ -163,7 +162,6 @@
   </span>
         </el-dialog>
       </el-card>
-
 </template>
 
 <script>
@@ -527,7 +525,7 @@ export default {
         }
       }
     },
-    // 自定义表头（悬浮显示当前日期）
+    // 自定义表头（显示当前日期）
     customColHeader (weekday) {
       const curWeek = this.formData.week
       let offset = 0
@@ -557,9 +555,7 @@ export default {
       }
       const curDate = new Date(BEGIN_DATE.getTime() + (curWeek - 1) * ONE_WEEK_TIME + offset * ONE_DAY_TIME)
 
-      const curDateObject = (curDate.getMonth() + 1) + '-' + (curDate.getDate())
-
-      return curDateObject
+      return (curDate.getMonth() + 1) + '-' + (curDate.getDate())
     },
     // header-cell
     headerCellStyle ({ row, column, columnIndex, rowIndex }) {
@@ -625,7 +621,11 @@ export default {
         const index = Math.floor(Math.random() * 4 + 1)
         this.cardBackground.background = 'url(http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk' + index + '.jpg) no-repeat'
       }, 30000)
+    },
+    getHeight () {
+      this.tableConfig.height = window.innerHeight - 159
     }
+
   },
   watch: {
     // 监控选中周数改变
@@ -645,7 +645,12 @@ export default {
     this.getStar()
     this.curDay = new Date().getDay()
     this.randomBgImg()
+    window.addEventListener('resize', this.getHeight)
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.getHeight)
   }
+
 }
 </script>
 
