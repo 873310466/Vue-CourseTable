@@ -14,7 +14,7 @@
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
-              <el-col :xs="{span: 24, offset: 3}" :lg="{span: 10, offset: 7}">
+              <el-col :xs="{span: 16, offset: 5}" :lg="{span: 9, offset: 8}" :sm="{span:15,offset:5}">
                 <!--选择周数-->
                 <span class="select-week">
           <common-form inline :form-label="formLabel" :form="formData">
@@ -38,66 +38,64 @@
               </el-col>
         </el-row>
 
-        <!--表格区域-->
-        <el-table
-          :height="tableConfig.height"
-          :header-cell-style="headerCellStyle"
-          :cell-style="cellStyle"
-          :data="tableData"
-          :span-method="objectSpanMethod"
-          v-loading="tableConfig.isLoading"
-          style="border-radius: 20px"
-          border>
-          <el-table-column
-            type="index"
-            align="center"
-            label="节次\星期"
-            width="95px"
-            fixed
-          >
-            <template slot-scope="scope">
-              <div class="first-col">
-                <div class="first-col-normal">
-                  {{customIndex(scope.$index,'normal')}}
+          <el-table
+            :height="tableConfig.height"
+            :header-cell-style="headerCellStyle"
+            :cell-style="cellStyle"
+            :data="tableData"
+            :span-method="objectSpanMethod"
+            v-loading="tableConfig.isLoading"
+            style="border-radius: 20px"
+            border>
+            <el-table-column
+              type="index"
+              align="center"
+              label="节次\星期"
+              width="95px"
+              fixed
+            >
+              <template slot-scope="scope">
+                <div class="first-col">
+                  <div class="first-col-normal">
+                    {{customIndex(scope.$index,'normal')}}
+                  </div>
+                  <div class="first-col-time">
+                    {{customIndex(scope.$index,'time')}}
+                  </div>
                 </div>
-                <div class="first-col-time">
-                  {{customIndex(scope.$index,'time')}}
-                </div>
-              </div>
 
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            v-for="item in tableLabel"
-            :key="item.prop"
-            :prop="item.prop"
-          >
-            <template v-slot:header >
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              v-for="item in tableLabel"
+              :key="item.prop"
+              :prop="item.prop"
+            >
+              <template v-slot:header >
                 <div class="col-header-normal">
                   {{item.label}}
                 </div>
                 <div >
                   {{customColHeader(item.label)}}
                 </div>
-            </template>
-            <template slot-scope="scope">
-              <div class="course">
-                <div v-if="scope.row[item.prop].name!==undefined" slot="reference">
-                  <el-tag size="medium">{{scope.row[item.prop].name}}</el-tag>
+              </template>
+              <template slot-scope="scope">
+                <div class="course">
+                  <div v-if="scope.row[item.prop].name!==undefined" slot="reference">
+                    <el-tag size="medium">{{scope.row[item.prop].name}}</el-tag>
+                  </div>
+                  <div class="course-teacher">
+                    {{scope.row[item.prop].teacher}}
+                  </div>
+                  <div class="course-location">
+                    {{scope.row[item.prop].location}}
+                  </div>
                 </div>
-                <div class="course-teacher">
-                  {{scope.row[item.prop].teacher}}
-                </div>
-                <div class="course-location">
-                  {{scope.row[item.prop].location}}
-                </div>
-              </div>
-            </template>
-          </el-table-column>
+              </template>
+            </el-table-column>
 
-        </el-table>
-
+          </el-table>
         <!--加星星区域-->
         <div class="stars">
           <el-tooltip class="item" effect="light" content="加颗星星吧OwO~" placement="top-start">
@@ -150,7 +148,7 @@
           :visible.sync="leaveMessageDialogVisible"
           ref="leaveMessageDialog"
           :before-close="beforeCloseLMDialog"
-          width="60%"
+          width="310px"
         >
           <!--友情建议表单-->
           <common-form :form-label="LMFormLabel" :form="LMFormData" :form-rules="LMFormRules"
@@ -256,11 +254,11 @@ export default {
       },
       formLabel: [
         {
-          label: '选择教学周',
+          label: '教学周',
           type: 'select',
           prop: 'week',
           isCusWidth: true,
-          cusWidth: '90%',
+          cusWidth: '71%',
           opts: [
             {
               label: '第 1 周',
@@ -703,6 +701,15 @@ export default {
   .select-week {
     /deep/ .el-form-item__label {
       color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    /deep/ .el-input__inner{
+      font-weight: bold;
+      font-size: 15px;
+    }
+    /deep/ .el-form-item__content{
+      margin-right: -45px;
 
     }
   }
