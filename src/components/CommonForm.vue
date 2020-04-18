@@ -24,19 +24,19 @@
       <el-input
         v-if="item.type==='textarea'"
         type="textarea"
-        :autosize="{ minRows: 3, maxRows: 7}"
+        :autosize="{ minRows: item.minRows!==undefined?item.minRows:5, maxRows: item.maxRows!==undefined?item.maxRows:5}"
         :placeholder="item.placeholder!==undefined?item.placeholder:'请输入'+item.label"
-        maxlength="200"
+        :maxlength="item.maxlength!==undefined?item.maxlength:200"
         show-word-limit
         v-model="form[item.prop]"
       >
       </el-input>
       <!--下拉框-->
       <el-select
-                 :style="{width:item.isCusWidth?item.cusWidth:'100%'}"
-                 v-if="item.type==='select'"
-                 v-model="form[item.prop]"
-                 placeholder="请选择">
+        :style="{width:item.isCusWidth?item.cusWidth:'100%'}"
+        v-if="item.type==='select'"
+        v-model="form[item.prop]"
+        placeholder="请选择">
         <el-option v-for="sItem in item.opts"
                    :key="sItem.value"
                    :label="sItem.label"

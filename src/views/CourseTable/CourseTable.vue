@@ -1,22 +1,22 @@
 <template>
-      <el-card shadow="hover" :style="cardBackground" >
+  <el-card shadow="hover" :style="cardBackground">
 
-        <el-row>
-            <!--左上角-->
-              <!--Help-->
-              <el-col :span="1">
-                <el-dropdown  @command="handleCommand">
-                  <el-button circle type="success" icon="el-icon-s-opportunity">
-                  </el-button>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="about">关于本站</el-dropdown-item>
-                    <el-dropdown-item command="suggestion">友情建议</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </el-col>
-              <el-col :xs="{span: 16, offset: 5}" :lg="{span: 9, offset: 8}" :sm="{span:15,offset:5}">
-                <!--选择周数-->
-                <span class="select-week">
+    <el-row>
+      <!--左上角-->
+      <!--Help-->
+      <el-col :span="1">
+        <el-dropdown @command="handleCommand">
+          <el-button circle type="success" icon="el-icon-s-opportunity">
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="about">关于本站</el-dropdown-item>
+            <el-dropdown-item command="suggestion">友情建议</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-col>
+      <el-col :xs="{span: 16, offset: 5}" :lg="{span: 9, offset: 7}" :sm="{span:15,offset:5}">
+        <!--选择周数-->
+        <span class="select-week">
           <common-form inline :form-label="formLabel" :form="formData">
             <!--回到本周的按钮-->
               <el-button-group>
@@ -35,131 +35,134 @@
               </el-button-group>
           </common-form>
         </span>
-              </el-col>
-        </el-row>
+      </el-col>
+    </el-row>
 
-          <el-table
-            :height="tableConfig.height"
-            :header-cell-style="headerCellStyle"
-            :cell-style="cellStyle"
-            :data="tableData"
-            :span-method="objectSpanMethod"
-            v-loading="tableConfig.isLoading"
-            style="border-radius: 20px"
-            border>
-            <el-table-column
-              type="index"
-              align="center"
-              label="节次\星期"
-              width="95px"
-              fixed
-            >
-              <template slot-scope="scope">
-                <div class="first-col">
-                  <div class="first-col-normal">
-                    {{customIndex(scope.$index,'normal')}}
-                  </div>
-                  <div class="first-col-time">
-                    {{customIndex(scope.$index,'time')}}
-                  </div>
-                </div>
+    <el-table
+      :height="tableConfig.height"
+      :header-cell-style="headerCellStyle"
+      :cell-style="cellStyle"
+      :data="tableData"
+      :span-method="objectSpanMethod"
+      v-loading="tableConfig.isLoading"
+      style="border-radius: 20px"
+      border>
+      <el-table-column
+        type="index"
+        align="center"
+        label="节次\星期"
+        width="95px"
+        fixed
+      >
+        <template slot-scope="scope">
+          <div class="first-col">
+            <div class="first-col-normal">
+              {{customIndex(scope.$index,'normal')}}
+            </div>
+            <div class="first-col-time">
+              {{customIndex(scope.$index,'time')}}
+            </div>
+          </div>
 
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="center"
-              v-for="item in tableLabel"
-              :key="item.prop"
-              :prop="item.prop"
-            >
-              <template v-slot:header >
-                <div class="col-header-normal">
-                  {{item.label}}
-                </div>
-                <div >
-                  {{customColHeader(item.label)}}
-                </div>
-              </template>
-              <template slot-scope="scope">
-                <div class="course">
-                  <div v-if="scope.row[item.prop].name!==undefined" slot="reference">
-                    <el-tag size="medium">{{scope.row[item.prop].name}}</el-tag>
-                  </div>
-                  <div class="course-teacher">
-                    {{scope.row[item.prop].teacher}}
-                  </div>
-                  <div class="course-location">
-                    {{scope.row[item.prop].location}}
-                  </div>
-                </div>
-              </template>
-            </el-table-column>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        v-for="item in tableLabel"
+        :key="item.prop"
+        :prop="item.prop"
+      >
+        <template v-slot:header>
+          <div class="col-header-normal">
+            {{item.label}}
+          </div>
+          <div>
+            {{customColHeader(item.label)}}
+          </div>
+        </template>
+        <template slot-scope="scope">
+          <div class="course">
+            <div v-if="scope.row[item.prop].name!==undefined" slot="reference">
+              <el-tag size="medium">{{scope.row[item.prop].name}}</el-tag>
+            </div>
+            <div class="course-teacher">
+              {{scope.row[item.prop].teacher}}
+            </div>
+            <div class="course-location">
+              {{scope.row[item.prop].location}}
+            </div>
+          </div>
+        </template>
+      </el-table-column>
 
-          </el-table>
-        <!--加星星区域-->
-        <div class="stars">
-          <el-tooltip class="item" effect="light" content="加颗星星吧OwO~" placement="top-start">
-            <el-button @click="addStar" type="warning" icon="el-icon-star-on" circle/>
-          </el-tooltip>
-          <div class="starSum">{{starSum}}</div>
-        </div>
-        <!--抽屉页t-->
-        <div class="about">
-          <el-drawer
-            size="30%"
-            title="关于本站"
-            :visible.sync="drawerVisible"
-            direction="ltr"
-          >
-            <ul class="about-ul">
-              <li>简介：本网站是自己上学的一个课程表~</li>
-              <li>作者：柠檬鱼</li>
-              <li>现状：东北大学-软件学院-大二学生</li>
-              <li>联系方式：873310466@qq.com</li>
-              <li>源码
-                <ul>
-                  <li><span style="margin-right: 5px">前端 :</span>
-                    <el-link type="primary" href="https://github.com/873310466/Vue-CourseTable">
-                      https://github.com/873310466/Vue-CourseTable
-                    </el-link>
-                  </li>
-                  <li><span style="margin-right: 5px">后端 :</span>
-                    <el-link type="primary" href="https://github.com/873310466/CoureseTable">
-                      https://github.com/873310466/CoureseTable
-                    </el-link>
-                  </li>
-                </ul>
+    </el-table>
+    <!--加星星区域-->
+    <div class="stars">
+      <el-tooltip class="item" effect="light" content="加颗星星吧OwO~" placement="top-start">
+        <el-button @click="addStar" type="warning" icon="el-icon-star-on" circle/>
+      </el-tooltip>
+      <div class="starSum">{{starSum}}</div>
+    </div>
+    <!--抽屉页t-->
+    <div class="about">
+      <el-drawer
+        size="30%"
+        title="关于本站"
+        :visible.sync="drawerVisible"
+        direction="ltr"
+      >
+        <ul class="about-ul">
+          <li>简介：本网站是自己上学的一个课程表~</li>
+          <li>作者：柠檬鱼</li>
+          <li>现状：东北大学-软件学院-大二学生</li>
+          <li>联系方式：873310466@qq.com</li>
+          <li>源码
+            <ul>
+              <li><span style="margin-right: 5px">前端 :</span>
+                <el-link type="primary" href="https://github.com/873310466/Vue-CourseTable">
+                  https://github.com/873310466/Vue-CourseTable
+                </el-link>
+              </li>
+              <li><span style="margin-right: 5px">后端 :</span>
+                <el-link type="primary" href="https://github.com/873310466/CoureseTable">
+                  https://github.com/873310466/CoureseTable
+                </el-link>
               </li>
             </ul>
-            <img src="" alt="">
-            <el-carousel :interval="3000" arrow="always" style="margin: 0 13px;border-radius: 10px">
-              <el-carousel-item v-for="item in dataImg" :key="item.src">
-                <img style="width: 100%;height: 100%" :src="item.src"/>
-              </el-carousel-item>
-            </el-carousel>
-            <el-divider content-position="center">⭐ <span style="font-weight: bold;font-size: 16px">愿景</span> ⭐</el-divider>
-            <h4 style="display: flex;justify-content: center">希望自己早日找到实习，越来越 <span style="color: #00aae2"> 腻害</span>叭 (●'◡'●)</h4>
-          </el-drawer>
-        </div>
+          </li>
+        </ul>
+        <img src="" alt="">
+        <el-carousel :interval="3000" arrow="always" style="margin: 0 13px;border-radius: 10px">
+          <el-carousel-item v-for="item in dataImg" :key="item.src">
+            <img style="width: 100%;height: 100%" :src="item.src"/>
+          </el-carousel-item>
+        </el-carousel>
+        <el-divider content-position="center">⭐ <span style="font-weight: bold;font-size: 16px">愿景</span> ⭐</el-divider>
+        <h4 style="display: flex;justify-content: center">希望自己早日找到实习，越来越 <span style="color: #00aae2"> 腻害</span>叭
+          (●'◡'●)</h4>
+      </el-drawer>
+    </div>
 
-        <!--友情建议对话框-->
-        <el-dialog
-          title="友情建议"
-          :visible.sync="leaveMessageDialogVisible"
-          ref="leaveMessageDialog"
-          :before-close="beforeCloseLMDialog"
-          width="310px"
-        >
-          <!--友情建议表单-->
-          <common-form :form-label="LMFormLabel" :form="LMFormData" :form-rules="LMFormRules"
-                       :label-position="'top'"></common-form>
+    <!--友情建议对话框-->
+    <el-dialog
+      :visible.sync="leaveMessageDialogVisible"
+      ref="leaveMessageDialog"
+      :before-close="beforeCloseLMDialog"
+      width="310px"
+    >
+      <span style="font-size: 23px" slot="title">
+        <i class="el-icon-s-promotion" style="color: #00aae2;margin-right: 5px"></i>Tips
+      </span>
+      <!--友情建议表单-->
+      <common-form :form-label="LMFormLabel" :form="LMFormData" :form-rules="LMFormRules"
+                   :label-position="'top'"></common-form>
 
-          <span slot="footer" class="dialog-footer">
-    <el-button @click="beforeCloseLMDialog">取 消</el-button>
-    <el-button type="primary" @click="sendSuggestion">发 送</el-button>
-  </span>
-        </el-dialog>
-      </el-card>
+      <span slot="footer">
+        <el-button @click="beforeCloseLMDialog">取 消</el-button>
+        <el-button type="primary" @click="sendSuggestion" :loading="btnSendTipsLoading">发 送</el-button>
+      </span>
+    </el-dialog>
+  </el-card>
 </template>
 
 <script>
@@ -204,6 +207,8 @@ export default {
             'http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk2.jpg',
             'http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk3.jpg',
             'http://course-table-img.oss-cn-hangzhou.aliyuncs.com/bk4.jpg'],
+      // 发送建议的按钮加载效果
+      btnSendTipsLoading: false,
       // 星星点击总数
       starSum: 0,
       // “关于界面弹出显示与隐藏”
@@ -229,8 +234,8 @@ export default {
           label: '友情建议',
           prop: 'content',
           type: 'textarea',
-          placeholder: '欢迎交流、欢迎交流~~O(∩_∩)O'
-
+          placeholder: '欢迎交流、欢迎交流~~O(∩_∩)O',
+          minRows: 6
         }
       ],
       LMFormData: {
@@ -348,9 +353,11 @@ export default {
       const form = this.$refs.leaveMessageDialog.$children[2].$refs.form
       form.validate(async (valid) => {
         if (valid) {
+          this.btnSendTipsLoading = true
           const { data: res } = await this.$http().post('/mail/', this.LMFormData)
           if (res.code !== 200) return this.$message.error('发送失败，请尝试555QAQ')
           this.$message.success('发送成功！欢迎交流 OwO~')
+          this.btnSendTipsLoading = false
           this.leaveMessageDialogVisible = false
         }
       })
@@ -685,14 +692,17 @@ export default {
 
   .el-card {
     padding: 0 15px;
-    background-size: cover!important;
+    background-size: cover !important;
+
     /deep/ .el-table {
       opacity: 0.5;
       transition: 0.666s ease-in-out;
-      .el-table__body{
+
+      .el-table__body {
         height: 100%;
       }
     }
+
     .el-table:hover {
       opacity: 1;
     }
@@ -704,11 +714,13 @@ export default {
       font-size: 16px;
       font-weight: bold;
     }
-    /deep/ .el-input__inner{
+
+    /deep/ .el-input__inner {
       font-weight: bold;
       font-size: 15px;
     }
-    /deep/ .el-form-item__content{
+
+    /deep/ .el-form-item__content {
       margin-right: -45px;
 
     }
@@ -778,7 +790,7 @@ export default {
     margin: 10px 0;
   }
 
-  .col-header-normal{
+  .col-header-normal {
     font-size: 16px;
   }
 
