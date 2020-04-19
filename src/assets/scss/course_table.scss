@@ -1,0 +1,179 @@
+/deep/ .el-drawer__header {
+  font-size: 25px !important;
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+
+  .starSum {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-size: 19px;
+    color: white;
+  }
+}
+
+.el-card {
+  padding: 0 15px;
+  background-size: cover !important;
+
+  /deep/ .el-table {
+    opacity: 0.5;
+    transition: 0.666s ease-in-out;
+
+    .el-table__body {
+      height: 100%;
+    }
+  }
+
+  .el-table:hover {
+    opacity: 1;
+  }
+}
+
+.select-week {
+  /deep/ .el-form-item__label {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /deep/ .el-input__inner {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  /deep/ .el-form-item__content {
+    margin-right: -45px;
+
+  }
+}
+
+.drop {
+  justify-content: center;
+  display: flex;
+}
+
+.course {
+  .chong{
+    position: absolute!important;
+    right: 5px!important;
+    top: 7px!important;
+    font-size: 6px!important;
+    color: #f03c78!important;
+    transform: rotate(30deg)!important;
+  }
+  .course-name {
+    transition: ease-in-out 1s;
+    color: #3b96f5;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .course-teacher {
+
+    color: #049b64;
+    font-size: 16px;
+    margin-top: 5px;
+
+  }
+
+  .course-location {
+    margin-top: 3px;
+    font-size: 14px;
+  }
+}
+
+.btn-curweek {
+  margin-left: -40px;
+}
+
+.first-col:hover {
+
+  .first-col-time {
+    opacity: 1;
+
+  }
+
+  .first-col-normal {
+    opacity: 0;
+
+  }
+
+}
+
+.first-col-normal {
+  transition: 0.5s ease-in-out;
+  display: block;
+}
+
+.first-col-time {
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+  position: absolute;
+  font-size: 15px;
+  width: 70px;
+  color: steelblue;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
+
+.about-ul li {
+  margin: 10px 0;
+
+}
+
+.col-header-normal {
+  font-size: 16px;
+}
+
+.jiayou{
+  color: #c75450;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 20px;
+  width: 0px;
+  height: 40px;
+  font-weight: bold;
+  line-height: 40px;
+  animation: w 3.3s linear infinite ;
+}
+
+@keyframes w {
+  12%{
+    color: #c75450;
+  }
+  24%{
+    color: orange;
+  }
+  36%{
+    color: yellow;
+  }
+  48%{
+    color: #78bb7b;
+  }
+  61%{
+  color: #6966a9;
+  }
+  74%{
+    color: #68c5e7;
+  }
+  87% {
+    color: mediumpurple;
+  }
+  100%{
+    width: 260px;
+    color: #ffffff;
+  }
+}

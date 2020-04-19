@@ -26,7 +26,7 @@
         type="textarea"
         :autosize="{ minRows: item.minRows!==undefined?item.minRows:5, maxRows: item.maxRows!==undefined?item.maxRows:5}"
         :placeholder="item.placeholder!==undefined?item.placeholder:'请输入'+item.label"
-        :maxlength="item.maxlength!==undefined?item.maxlength:200"
+        :maxlength="item.maxlength!==undefined?item.maxlength:100"
         show-word-limit
         v-model="form[item.prop]"
       >

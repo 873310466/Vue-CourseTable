@@ -40,4 +40,15 @@ html, body, #app {
   }
 }
 
+:focus {
+  outline: 0;
+}
+
+
+.el-textarea .el-textarea__inner{ // 然后找到对应的类名，在这里将拉伸去掉即可
+  resize: none;
+}
+
+
+
 

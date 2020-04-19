@@ -1,4 +1,4 @@
-<template>
+ <template>
   <el-card shadow="hover" :style="cardBackground">
 
     <el-row>
@@ -14,13 +14,14 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
-      <el-col :xs="{span: 16, offset: 5}" :lg="{span: 9, offset: 7}" :sm="{span:15,offset:5}">
+      <el-col :xs="{span: 3, offset: 7}" :sm="{span:3,offset:2}"><div class="jiayou">祝大家考试好运哇~(●'◡'●)</div></el-col>
+      <el-col :xs="{span: 16, offset: 5}" :lg="{span: 8, offset: 3}" :sm="{span:12,offset:2}">
         <!--选择周数-->
         <span class="select-week">
           <common-form inline :form-label="formLabel" :form="formData">
             <!--回到本周的按钮-->
               <el-button-group>
-                <el-tooltip effect="light" content="显示上周课程" placement="top" :enterable="false">
+            <el-tooltip effect="light" content="显示上周课程" placement="top" :enterable="false">
                   <el-button :disabled="formData.week===1" @click="lastWeekCourses" type="primary"
                              icon="el-icon-arrow-left"></el-button>
                 </el-tooltip>
@@ -41,7 +42,7 @@
     <el-table
       :height="tableConfig.height"
       :header-cell-style="headerCellStyle"
-      :cell-style="cellStyle"
+      :cell-class-name="cellStyle"
       :data="tableData"
       :span-method="objectSpanMethod"
       v-loading="tableConfig.isLoading"
@@ -53,6 +54,8 @@
         label="节次\星期"
         width="95px"
         fixed
+        :resizable="false"
+
       >
         <template slot-scope="scope">
           <div class="first-col">
@@ -71,6 +74,7 @@
         v-for="item in tableLabel"
         :key="item.prop"
         :prop="item.prop"
+        :resizable="false"
       >
         <template v-slot:header>
           <div class="col-header-normal">
@@ -82,8 +86,8 @@
         </template>
         <template slot-scope="scope">
           <div class="course">
-            <div v-if="scope.row[item.prop].name!==undefined" slot="reference">
-              <el-tag size="medium">{{scope.row[item.prop].name}}</el-tag>
+            <div v-if="scope.row[item.prop].name!==undefined">
+              <el-tag size="medium" class="course-name">{{scope.row[item.prop].name}}</el-tag>
             </div>
             <div class="course-teacher">
               {{scope.row[item.prop].teacher}}
@@ -193,13 +197,7 @@ export default {
         {
           src: 'https://course-table-img.oss-cn-hangzhou.aliyuncs.com/BEAUTY03.jpg'
 
-        },
-
-        {
-          src: 'https://course-table-img.oss-cn-hangzhou.aliyuncs.com/HANDSOND.jpg'
-
         }
-
       ],
       // 背景图片
       bgImg:
@@ -259,7 +257,7 @@ export default {
       },
       formLabel: [
         {
-          label: '教学周',
+          label: '教 学 周',
           type: 'select',
           prop: 'week',
           isCusWidth: true,
@@ -569,6 +567,8 @@ export default {
           backgroundColor: '#3172b2',
           color: '#eee'
         }
+      } else if (rowIndex === 0 && columnIndex === 0) {
+        return { background: '#fff' }
       } else {
         return { background: '#eef1f6' }
       }
@@ -577,29 +577,14 @@ export default {
     cellStyle ({ row, column, columnIndex, rowIndex }) {
       if (columnIndex !== 0) {
         return row[column.property].rowSpan > 0
-          ? {
-            backgroundColor: '#E0FFFF'
-          } : {}
+          ? 'has-course' : undefined
       } else {
         if (rowIndex < 4) {
-          return {
-            backgroundColor: '#c4e1c5',
-            cursor: 'default',
-            fontWeight: 'bold'
-          }
+          return 'fir-courses'
         } else if (rowIndex < 8) {
-          return {
-            backgroundColor: 'skyblue',
-            cursor: 'default',
-            fontWeight: 'bold'
-
-          }
+          return 'sec-courses'
         } else {
-          return {
-            backgroundColor: '#FFB6C1',
-            cursor: 'default',
-            fontWeight: 'bold'
-          }
+          return 'thr-courses'
         }
       }
     },
@@ -659,139 +644,53 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  :focus {
-    outline: 0;
-  }
-</style>
-
 <style lang="scss" scoped>
-  /deep/ .el-drawer__header {
-    font-size: 25px !important;
+  @import "src/assets/scss/course_table.scss";
 
-    span {
+</style>
+<style lang="scss">
+  .el-table--enable-row-hover .el-table__body tr:hover > td {
+    background-color: #ffffff!important;
+  }
+  .has-course{
+    background-color: #E0FFFF!important;
+    padding: 0!important;
+    position: relative;
+    overflow: hidden!important; // 这里很关键，好像默认是visible
+    .cell{
+      height: 100%;
+      transition: ease-in-out 1s;
       display: flex;
-      justify-content: center;
       align-items: center;
-    }
-  }
-
-  .stars {
-    display: flex;
-    justify-content: center;
-    margin-top: 12px;
-
-    .starSum {
-      display: flex;
-      align-items: center;
-      margin-left: 10px;
-      font-size: 19px;
-      color: white;
-    }
-  }
-
-  .el-card {
-    padding: 0 15px;
-    background-size: cover !important;
-
-    /deep/ .el-table {
-      opacity: 0.5;
-      transition: 0.666s ease-in-out;
-
-      .el-table__body {
-        height: 100%;
-      }
-    }
-
-    .el-table:hover {
-      opacity: 1;
-    }
-  }
-
-  .select-week {
-    /deep/ .el-form-item__label {
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    /deep/ .el-input__inner {
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    /deep/ .el-form-item__content {
-      margin-right: -45px;
-
-    }
-  }
-
-  .drop {
-    justify-content: center;
-    display: flex;
-  }
-
-  .course {
-    .el-tag {
-      display: flex;
       justify-content: center;
-      color: #3b96f5;
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    .course-teacher {
-      color: #049b64;
-      font-size: 15px;
-    }
-
-    .course-location {
-      font-size: 14px;
-    }
-  }
-
-  .btn-curweek {
-    margin-left: -40px;
-  }
-
-  .first-col:hover {
-
-    .first-col-time {
-      opacity: 1;
-
-    }
-
-    .first-col-normal {
-      opacity: 0;
-
     }
 
   }
-
-  .first-col-normal {
-    transition: 0.5s ease-in-out;
-    display: block;
+  .has-course :hover{
+    background-color: #fedd8397!important;
+    border-radius: 20px;
+    transform:  scale(1.15);
+    .course-name{
+      background-color: #409eff;
+      color: #eeeeee;
+      border-radius: 20px;
+      cursor: default;
+    }
   }
-
-  .first-col-time {
-    opacity: 0;
-    transition: 0.5s ease-in-out;
-    position: absolute;
-    font-size: 15px;
-    width: 70px;
-    color: steelblue;
+  .fir-courses{
+    background-color: #c4e1c5!important;
+    cursor: default;
     font-weight: bold;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%)
   }
-
-  .about-ul li {
-    margin: 10px 0;
+  .sec-courses{
+    background-color: skyblue!important;
+    cursor: default;
+    font-weight: bold;
   }
-
-  .col-header-normal {
-    font-size: 16px;
+  .thr-courses{
+    background-color: #FFB6C1!important;
+    cursor: default;
+    font-weight: bold;
   }
 
 </style>
