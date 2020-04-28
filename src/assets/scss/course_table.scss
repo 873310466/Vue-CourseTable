@@ -64,16 +64,8 @@
 }
 
 .course {
-  .chong{
-    position: absolute!important;
-    right: 5px!important;
-    top: 7px!important;
-    font-size: 6px!important;
-    color: #f03c78!important;
-    transform: rotate(30deg)!important;
-  }
   .course-name {
-    transition: ease-in-out 1s;
+    //transition: ease-in-out 1s;
     color: #3b96f5;
     font-weight: bold;
     font-size: 16px;
@@ -92,6 +84,8 @@
     font-size: 14px;
   }
 }
+
+
 
 .btn-curweek {
   margin-left: -40px;

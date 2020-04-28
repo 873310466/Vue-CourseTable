@@ -14,8 +14,8 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
-      <el-col :xs="{span: 3, offset: 7}" :sm="{span:3,offset:2}"><div class="jiayou">祝大家考试好运哇~(●'◡'●)</div></el-col>
-      <el-col :xs="{span: 16, offset: 5}" :lg="{span: 8, offset: 3}" :sm="{span:12,offset:2}">
+      <el-col :xs="{span: 3, offset: 5}" :sm="{span:3,offset:2}"><div class="jiayou">祝大家考试好运哇~(●'◡'●)</div></el-col>
+      <el-col :xs="{span: 16, offset: 5}" :lg="{span: 10, offset: 3}" :sm="{span:8,offset:5}">
         <!--选择周数-->
         <span class="select-week">
           <common-form inline :form-label="formLabel" :form="formData">
@@ -171,7 +171,8 @@
 
 <script>
 import CommonForm from '@/components/CommonForm'
-
+import * as CLASS_INDEX from '@/assets/js/class_index'
+import * as WEEKDAY from '@/assets/js/weekday'
 // 开学日期
 const BEGIN_DATE = new Date('2020-02-23 00:00:00')
 // 一周的时间
@@ -280,31 +281,32 @@ export default {
       },
       tableLabel: [
         {
-          prop: '7',
+          prop: 'seven',
           label: '星期日'
         },
         {
-          prop: '1',
+          prop: 'one',
           label: '星期一'
         },
+
         {
-          prop: '2',
+          prop: 'two',
           label: '星期二'
         },
         {
-          prop: '3',
+          prop: 'three',
           label: '星期三'
         },
         {
-          prop: '4',
+          prop: 'four',
           label: '星期四'
         },
         {
-          prop: '5',
+          prop: 'five',
           label: '星期五'
         },
         {
-          prop: '6',
+          prop: 'six',
           label: '星期六'
         }
 
@@ -380,6 +382,7 @@ export default {
         if (res.code !== 200) return this.$message.error('获取数据失败')
         // 开启加载效果
         this.tableConfig.isLoading = true
+        this.spanArray = []
 
         // 手动延迟0.5S，提升用户体验
         setTimeout(() => {
@@ -388,37 +391,37 @@ export default {
           res.data.forEach(item => {
             // 生成每一行的模板（周日开始——周六结束）
             const coursePerRow = {
-              7: '',
-              1: '',
-              2: '',
-              3: '',
-              4: '',
-              5: '',
-              6: ''
+              one: '',
+              two: '',
+              three: '',
+              four: '',
+              five: '',
+              six: '',
+              seven: ''
             }
             item.forEach(subItem => {
               // 根据星期几，来排版每节次的课程表
               switch (subItem.day) {
                 case 1:
-                  coursePerRow['1'] = subItem
+                  coursePerRow.one = subItem
                   break
                 case 2:
-                  coursePerRow['2'] = subItem
+                  coursePerRow.two = subItem
                   break
                 case 3:
-                  coursePerRow['3'] = subItem
+                  coursePerRow.three = subItem
                   break
                 case 4:
-                  coursePerRow['4'] = subItem
+                  coursePerRow.four = subItem
                   break
                 case 5:
-                  coursePerRow['5'] = subItem
+                  coursePerRow.five = subItem
                   break
                 case 6:
-                  coursePerRow['6'] = subItem
+                  coursePerRow.six = subItem
                   break
                 case 7:
-                  coursePerRow['7'] = subItem
+                  coursePerRow.seven = subItem
                   break
               }
             })
@@ -433,17 +436,9 @@ export default {
     // 根据一节课多少节次，决定table-cell占多少行
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
       if (columnIndex !== 0) {
-        if (rowIndex % 2 === 0) {
-          const rowSpan = row[column.property].rowSpan > 0 ? row[column.property].rowSpan : 1
-          return {
-            rowspan: rowSpan,
-            colspan: 1
-          }
-        } else {
-          return {
-            rowspan: 1,
-            colspan: 1
-          }
+        const rowSpan = row[column.property].rowSpan
+        if (rowIndex % 2 === 0 && rowSpan !== undefined) {
+          return [rowSpan, 1]
         }
       }
     },
@@ -475,56 +470,56 @@ export default {
       if (type === 'normal') {
         switch (cusIndex) {
           case 1 :
-            return '第 一 节'
+            return CLASS_INDEX.firstOrder
           case 2 :
-            return '第 二 节'
+            return CLASS_INDEX.secondOrder
           case 3 :
-            return '第 三 节'
+            return CLASS_INDEX.thirdOrder
           case 4 :
-            return '第 四 节'
+            return CLASS_INDEX.fourthOrder
           case 5 :
-            return '第 五 节'
+            return CLASS_INDEX.fifthOrder
           case 6 :
-            return '第 六 节'
+            return CLASS_INDEX.sixthOrder
           case 7 :
-            return '第 七 节'
+            return CLASS_INDEX.seventhOrder
           case 8 :
-            return '第 八 节'
+            return CLASS_INDEX.eigthOrder
           case 9 :
-            return '第 九 节'
+            return CLASS_INDEX.ninthOrder
           case 10 :
-            return '第 十 节'
+            return CLASS_INDEX.tenthOrder
           case 11 :
-            return '第 十一 节'
+            return CLASS_INDEX.eleventhOrder
           case 12 :
-            return '第 十二 节'
+            return CLASS_INDEX.twelfthOrder
         }
       } else {
         switch (cusIndex) {
           case 1 :
-            return '08 : 30'
+            return CLASS_INDEX.firstOrderTime
           case 2 :
-            return '09 : 30'
+            return CLASS_INDEX.secondOrderTime
           case 3 :
-            return '10 : 40'
+            return CLASS_INDEX.thirdOrderTime
           case 4 :
-            return '11 : 40'
+            return CLASS_INDEX.fourthOrderTime
           case 5 :
-            return '14 : 00'
+            return CLASS_INDEX.fifthOrderTime
           case 6 :
-            return '15 : 00'
+            return CLASS_INDEX.sixthOrderTime
           case 7 :
-            return '16 : 10'
+            return CLASS_INDEX.seventhOrderTime
           case 8 :
-            return '17 : 10'
+            return CLASS_INDEX.eigthOrderTime
           case 9 :
-            return '18 : 30'
+            return CLASS_INDEX.ninthOrderTime
           case 10 :
-            return '19 : 30'
+            return CLASS_INDEX.tenthOrderTime
           case 11 :
-            return '20 : 40'
+            return CLASS_INDEX.eleventhOrderTime
           case 12 :
-            return '21 : 40'
+            return CLASS_INDEX.twelfthOrderTime
         }
       }
     },
@@ -533,26 +528,26 @@ export default {
       const curWeek = this.formData.week
       let offset = 0
       switch (weekday) {
-        case '星期日':
+        case WEEKDAY.Sunday:
           offset = 0
           break
-        case '星期一':
+        case WEEKDAY.Monday:
           offset = 1
           break
-        case '星期二':
+        case WEEKDAY.Tuesday:
           offset = 2
           break
-        case '星期三':
+        case WEEKDAY.Wendesday:
           offset = 3
           break
-        case '星期四':
+        case WEEKDAY.Thursday:
           offset = 4
           break
 
-        case '星期五':
+        case WEEKDAY.Friday:
           offset = 5
           break
-        case '星期六':
+        case WEEKDAY.Saturday:
           offset = 6
           break
       }
@@ -658,19 +653,29 @@ export default {
     position: relative;
     overflow: hidden!important; // 这里很关键，好像默认是visible
     .cell{
+      transition: ease-in-out .5s;
       height: 100%;
-      transition: ease-in-out 1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    }
+  }
+  .has-course :hover {
+    top: -3px;
+    background-color: #fedd8397;
+    border-radius: 20px;
+    cursor: pointer;
+    transform: translateY(-3px);
+    box-shadow: 10px 10px 10px 0 rgba(108, 135, 135, .2);
+
+    .course-name {
+      background-color: #409eff;
+      color: #eeeeee;
+      border-radius: 20px;
+      cursor: default;
     }
 
-  }
-  .has-course :hover{
-    background-color: #fedd8397!important;
-    border-radius: 20px;
-    transform:  scale(1.15);
-    .course-name{
+    .course-name:hover {
       background-color: #409eff;
       color: #eeeeee;
       border-radius: 20px;

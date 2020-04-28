@@ -1,0 +1,7 @@
+export const Sunday = '星期日'
+export const Monday = '星期一'
+export const Tuesday = '星期二'
+export const Wendesday = '星期三'
+export const Thursday = '星期四'
+export const Friday = '星期五'
+export const Saturday = '星期六'
